@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Mercado da Família - Menu Principal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='menu.css') }}">
+</head>
+<body>
+
+    <header>
+        <h1 style="text-align: center; margin: 0;">MERCADO DA FAMÍLIA</h1>
+    </header>
+
+    <main>
+        <section class="nav-container">
+            
+            <a href="/venda" class="menu-card">
+                <h2>VENDA</h2>
+                <p>Iniciar nova venda ou receber fiado</p>
+            </a>
+
+            <a href="/produtos" class="menu-card">
+                <h2>PRODUTOS</h2>
+                <p>Cadastrar e gerenciar preços</p>
+            </a>
+
+            <a href="/dividas" class="menu-card">
+                <h2>DÍVIDAS</h2>
+                <p>Consultar tickets por cliente</p>
+            </a>
+
+        </section>
+    </main>
+
+    <footer style="position: fixed; bottom: 0; width: 100%; text-align: center; border-top: 1px solid var(--border-soft);">
+        <small>Utilize as setas ou TAB para navegar entre as opções.</small>
+    </footer>
+    <script src="{{ url_for('static', filename='js/navegacao.js') }}"></script>
+</body>
+</html>

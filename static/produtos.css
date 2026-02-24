@@ -1,0 +1,59 @@
+/* Container do formulário em grid para manter a hierarquia visual na mesma linha */
+.form-cadastro {
+    background: var(--gray-light);
+    padding: 25px;
+    border: 1px solid var(--border-soft);
+    border-radius: 4px;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1.5fr 1fr auto;
+    gap: 15px;
+    align-items: flex-end;
+}
+
+.campo-grupo {
+    display: flex;
+    flex-direction: column;
+}
+
+.campo-grupo label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+}
+
+.campo-grupo input {
+    padding: 12px;
+    border: 1px solid var(--border-soft);
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.campo-grupo input:focus {
+    outline: none;
+    border-color: var(--focus-blue);
+}
+
+.status-label {
+    font-size: 0.75rem;
+    height: 1rem;
+    margin-top: 4px;
+}
+
+/* Estilização da Tabela de Itens */
+.secao-lista {
+    margin-top: 40px;
+}
+
+.secao-lista h3 {
+    border-bottom: 2px solid var(--border-soft);
+    padding-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th { text-align: left; padding: 12px; border-bottom: 2px solid var(--border-soft); }
+td { padding: 12px; border-bottom: 1px solid var(--border-soft); }
