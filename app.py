@@ -20,6 +20,7 @@ def produtos_escolha():
 
 @app.route('/produtos/existentes')
 def produtos_existentes():
+    
     conn = get_db_connection()
     produtos = conn.execute('SELECT * FROM produtos').fetchall()
     conn.close()

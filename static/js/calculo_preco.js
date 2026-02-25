@@ -70,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Se o preço final for 0 ou vazio, bloqueia o envio
         if (!inputPrecoOculto.value || parseFloat(inputPrecoOculto.value) === 0) {
             e.preventDefault();
-            alert("Erro: O preço de venda não pode ser zero.");
             inputVendaReais.focus();
         }
     });

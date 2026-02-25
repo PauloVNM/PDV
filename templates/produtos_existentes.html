@@ -19,18 +19,18 @@
             <section aria-label="Identidade do Produto" class="form-cadastro" style="margin-bottom: 20px;">
                 <div class="campo-grupo">
                     <label for="codigo_ean">Código de Barras (EAN)</label>
-                    <input type="text" name="codigo" id="codigo_ean" autofocus>
+                    <input type="text" name="codigo" id="codigo_ean" autofocus required>
                     <div id="status_ean" class="status-label"></div>
                 </div>
 
                 <div class="campo-grupo">
                     <label for="nome_produto">Descrição do Produto</label>
-                    <input type="text" name="nome" id="nome_produto">
+                    <input type="text" name="nome" id="nome_produto" required>
                 </div>
 
                 <div class="campo-grupo">
                     <label for="marca_produto">Marca</label>
-                    <input type="text" name="marca" id="marca_produto">
+                    <input type="text" name="marca" id="marca_produto" required>
                 </div>
             </section>
 
@@ -52,11 +52,11 @@
 
                 <div class="campo-grupo">
                     <label for="venda_reais" style="color: #27ae60; font-weight: bold;">Venda (R$)</label>
-                    <input type="number" id="venda_reais" placeholder="0">
+                    <input type="number" id="venda_reais" placeholder="0" required>
                 </div>
                 <div class="campo-grupo">
                     <label for="venda_cents" style="color: #27ae60; font-weight: bold;">Venda (Cents)</label>
-                    <input type="number" id="venda_cents" placeholder="00" max="99">
+                    <input type="number" id="venda_cents" placeholder="00" max="99" required>
                 </div>
 
                 <input type="hidden" name="preco" id="preco_final_oculto">
