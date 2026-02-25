@@ -28,6 +28,22 @@ def produtos_existentes():
 
 @app.route('/api/consulta-ean/<ean>')
 def consulta_ean(ean):
+    # 1. Bate no Banco Local Primeiro (Tiro curto)
+    conn = get_db_connection()
+    produto = conn.execute('SELECT * FROM produtos WHERE ean = ?', (ean,)).fetchone()
+    conn.close()
+
+    if produto:
+        # Se achou no seu SQLite, devolve com a flag 'local'
+        return jsonify({
+            "sucesso": True,
+            "origem": "local",
+            "nome": produto['nome'],
+            "marca": produto['marca'],
+            "preco": produto['preco']
+        })
+
+    # 2. Se não achou local, aciona a 2ª marcha e busca na Internet
     url = f"https://world.openfoodfacts.org/api/v0/product/{ean}.json"
     try:
         response = requests.get(url, timeout=20)
@@ -36,12 +52,15 @@ def consulta_ean(ean):
             p = data.get('product', {})
             return jsonify({
                 "sucesso": True,
+                "origem": "nuvem",
                 "nome": p.get('product_name_pt') or p.get('product_name') or "",
                 "marca": p.get('brands', "")
             })
     except:
         pass
-    return jsonify({"sucesso": False})
+    
+    # 3. Não existe em lugar nenhum
+    return jsonify({"sucesso": False, "origem": "nenhuma"})
 
 @app.route('/salvar_produto_existente', methods=['POST'])
 def salvar_produto_existente():

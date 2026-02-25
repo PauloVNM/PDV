@@ -57,3 +57,7 @@ table {
 
 th { text-align: left; padding: 12px; border-bottom: 2px solid var(--border-soft); }
 td { padding: 12px; border-bottom: 1px solid var(--border-soft); }
+
+.campo-grupo input:invalid {
+    border-color: #e74c3c; /* Borda vermelha */
+}
