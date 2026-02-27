@@ -9,14 +9,13 @@
 <body>
 
     <header>
-        <h1 style="text-align: center; margin: 0;">CADASTRO DE PRODUTOS EXISTENTES</h1>
+        <h1>CADASTRO DE PRODUTOS EXISTENTES</h1>
     </header>
 
-<main style="padding: 20px;">
-        
+    <main>
         <form id="form-cadastro" action="/salvar_produto_existente" method="POST">
             
-            <section aria-label="Identidade do Produto" class="form-cadastro" style="margin-bottom: 20px;">
+            <section aria-label="Identidade do Produto" class="form-cadastro grid-identidade">
                 <div class="campo-grupo">
                     <label for="codigo_ean">Código de Barras (EAN)</label>
                     <input type="text" name="codigo" id="codigo_ean" autofocus required>
@@ -34,11 +33,10 @@
                 </div>
             </section>
 
-            <section aria-label="Cálculo de Preço" class="form-cadastro" style="grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr auto;">
-                
+            <section aria-label="Cálculo de Preço" class="form-cadastro grid-preco">
                 <div class="campo-grupo">
                     <label for="margem_lucro">Margem (%)</label>
-                    <input type="number" id="margem_lucro" placeholder="Ex: 30" style="background: #eef6fc;">
+                    <input type="number" id="margem_lucro" class="input-margem" placeholder="Ex: 30">
                 </div>
 
                 <div class="campo-grupo">
@@ -51,51 +49,52 @@
                 </div>
 
                 <div class="campo-grupo">
-                    <label for="venda_reais" style="color: #27ae60; font-weight: bold;">Venda (R$)</label>
+                    <label for="venda_reais" class="destaque-venda">Venda (R$)</label>
                     <input type="number" id="venda_reais" placeholder="0" required>
                 </div>
                 <div class="campo-grupo">
-                    <label for="venda_cents" style="color: #27ae60; font-weight: bold;">Venda (Cents)</label>
+                    <label for="venda_cents" class="destaque-venda">Venda (Cents)</label>
                     <input type="number" id="venda_cents" placeholder="00" max="99" required>
                 </div>
 
                 <input type="hidden" name="preco" id="preco_final_oculto">
 
-                <button type="submit" class="btn-pago" style="height: 48px; width: 100%; padding: 0 30px;">SALVAR</button>
+                <button type="submit" class="btn-salvar">SALVAR</button>
             </section>
         </form>
 
         <section class="secao-lista" aria-label="Lista de Produtos Cadastrados">
             <h3>Últimos Itens Homologados</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>EAN</th>
-                        <th>Descrição</th>
-                        <th>Marca</th>
-                        <th>Preço Final</th>
-                    </tr>
-                </thead>
-                <tbody id="lista-produtos">
-                    {% for produto in produtos %}
-                    <tr>
-                        <td>{{ produto['ean'] }}</td>
-                        <td>{{ produto['nome'] }}</td>
-                        <td>{{ produto['marca'] }}</td>
-                        <td>R$ {{ "%.2f"|format(produto['preco']) }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </section>
+            
+            <div class="tabela-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>EAN</th>
+                            <th>Descrição</th>
+                            <th>Marca</th>
+                            <th>Preço Final</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-produtos">
+                        {% for produto in produtos %}
+                        <tr>
+                            <td>{{ produto['ean'] }}</td>
+                            <td>{{ produto['nome'] }}</td>
+                            <td>{{ produto['marca'] }}</td>
+                            <td>R$ {{ "%.2f"|format(produto['preco']) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
+        </section>
     </main>
 
     <footer>
-        <div style="display: flex; justify-content: space-between; padding: 0 20px;">
-            <span>ESC para sair do módulo</span>
-            <span>Módulo de Homologação Offline</span>
-        </div>
+        <div>ESC para sair do módulo</div>
+        <div>Módulo de Homologação Offline</div>
     </footer>
 
     <script src="{{ url_for('static', filename='js/api_ean.js') }}"></script>
