@@ -50,21 +50,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         // Joga a mira pro campo de venda caso ele queira reajustar o preço na mão
                         inputVendaReais.focus();
-
-                    } else if (data.origem === "nuvem") {
-                        // ACHOU NA INTERNET: É produto novo, precisa precificar
-                        statusEan.innerText = "Novo Produto (Internet)";
-                        statusEan.style.color = "#3498db"; // Azul
-                        
-                        // Foca direto na margem/custo pra ele iniciar a precificação
-                        inputMargem.focus();
+                    } else {
+                        // NÃO ACHOU EM LUGAR NENHUM
+                        statusEan.innerText = "Não cadastrado.";
+                        statusEan.style.color = "#e74c3c"; // Vermelho
+                        inputNome.focus(); // Joga a mira pro Nome pra ele digitar do zero
                     }
-                } else {
-                    // NÃO ACHOU EM LUGAR NENHUM
-                    statusEan.innerText = "Não cadastrado.";
-                    statusEan.style.color = "#e74c3c"; // Vermelho
-                    inputNome.focus(); // Joga a mira pro Nome pra ele digitar do zero
-                }
+
+                } 
+    
             } catch (error) {
                 statusEan.innerText = "Erro de conexão.";
                 statusEan.style.color = "#e74c3c";

@@ -1,3 +1,6 @@
+import os
+import barcode
+from barcode.writer import ImageWriter
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 import requests
 from database import get_db_connection, init_db

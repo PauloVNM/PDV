@@ -12,17 +12,33 @@ body {
     font-family: 'Segoe UI', sans-serif;
     margin: 0;
     padding: 0;
+    height: 100vh; /* Trava a altura exata da tela */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Assassina a barra de rolagem global */
 }
 
 /* Elementos Estáticos */
 header, footer {
     background-color: var(--bg-white);
     padding: 1rem;
+    flex-shrink: 0; /* Impede que cabeçalho e rodapé sejam esmagados */
+}
+
+header {
     border-bottom: 1px solid var(--border-soft);
 }
 
+footer {
+    border-top: 1px solid var(--border-soft);
+}
+
 main {
-    padding: 2rem;
+    flex: 1; /* Ocupa 100% do espaço vazio no meio da tela */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* Proteção vital: impede que o conteúdo de dentro force o main a crescer */
 }
 
 a { text-decoration: none; color: inherit; }

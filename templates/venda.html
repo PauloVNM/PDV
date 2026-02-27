@@ -12,39 +12,49 @@
         <h2 style="margin: 0; text-align: center;">CAIXA OCUPADO</h2>
     </header>
 
-    <main class="venda-container">
-        <section class="painel-lista" aria-label="Lista de Produtos">
-            <table id="tabela-itens">
-                <thead>
-                    <tr>
-                        <th>Cód.</th>
-                        <th>Produto</th>
-                        <th>Qtd</th>
-                        <th>Preço</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    </tbody>
-            </table>
+    <main>
+        <div class="venda-container" style="flex-direction: row;">
+            
+            <section class="painel-lista" aria-label="Lista de Produtos">
+                <table id="tabela-itens">
+                    <thead>
+                        <tr>
+                            <th>Cód.</th>
+                            <th>Produto</th>
+                            <th>Qtd</th>
+                            <th>Preço</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </section>
+
+            <div class="painel-operacional" aria-label="Comandos de Venda">
+    
+    <section class="card-caixa">
+        <label for="barcode">Aguardando Leitura...</label>
+        <input type="text" id="barcode" placeholder="Bipe o código" autofocus>
+    </section>
+
+    <div class="card-caixa total-display">
+        <span>TOTAL</span>
+        <h1 id="valor-total">R$ 0,00</h1>
+    </div>
+
+    <div class="acoes-finalizacao">
+        <section>
+            <button class="btn-acao pago">FINALIZAR VENDA</button>
         </section>
-
-        <section class="painel-operacional" aria-label="Comandos de Venda">
-            <div class="card-caixa">
-                <label for="barcode">Aguardando Leitura...</label>
-                <input type="text" id="barcode" placeholder="Bipe o código" autofocus>
-            </div>
-
-            <div class="card-caixa total-display">
-                <span>TOTAL</span>
-                <h1 id="valor-total">R$ 0,00</h1>
-            </div>
-
-            <div class="acoes-finalizacao">
-                <button class="btn-acao pago">FINALIZAR VENDA</button>
-                <button class="btn-acao pendente">LANÇAR FIADO</button>
-            </div>
+        
+        <section>
+            <button class="btn-acao pendente">LANÇAR FIADO</button>
         </section>
+    </div>
+</div>
+            
+        </div>
     </main>
 
     <footer>
@@ -53,6 +63,8 @@
             <span>Operador: Paulo Monteiro</span>
         </div>
     </footer>
+    
     <script src="{{ url_for('static', filename='js/navegacao.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/venda.js') }}"></script>
 </body>
 </html>
