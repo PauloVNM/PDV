@@ -1,9 +1,13 @@
 import os
-import barcode
-from barcode.writer import ImageWriter
-from flask import Flask, render_template, jsonify, request, redirect, url_for
 import requests
-from database import get_db_connection, init_db
+from flask import Flask, render_template, jsonify, request, redirect, url_for
+from database import (
+    init_db,
+    buscar_todos_produtos,
+    buscar_produto_por_ean,
+    inserir_ou_atualizar_produto,
+    registrar_venda_paga
+)
 
 app = Flask(__name__)
 
@@ -23,18 +27,13 @@ def produtos_escolha():
 
 @app.route('/produtos/existentes')
 def produtos_existentes():
-    
-    conn = get_db_connection()
-    produtos = conn.execute('SELECT * FROM produtos').fetchall()
-    conn.close()
+    produtos = buscar_todos_produtos()
     return render_template('produtos_existentes.html', produtos=produtos)
 
 @app.route('/api/consulta-ean/<ean>')
 def consulta_ean(ean):
     # 1. Bate no Banco Local Primeiro (Tiro curto)
-    conn = get_db_connection()
-    produto = conn.execute('SELECT * FROM produtos WHERE ean = ?', (ean,)).fetchone()
-    conn.close()
+    produto = buscar_produto_por_ean(ean)
 
     if produto:
         # Se achou no seu SQLite, devolve com a flag 'local'
@@ -67,14 +66,31 @@ def consulta_ean(ean):
 
 @app.route('/salvar_produto_existente', methods=['POST'])
 def salvar_produto_existente():
-    ean, nome, marca, preco = request.form.get('codigo'), request.form.get('nome'), request.form.get('marca'), request.form.get('preco')
+    ean = request.form.get('codigo')
+    nome = request.form.get('nome')
+    marca = request.form.get('marca')
+    preco = request.form.get('preco')
     
     if ean and nome and preco and marca:
-        conn = get_db_connection()
-        conn.execute('INSERT OR REPLACE INTO produtos VALUES (?, ?, ?, ?)', (ean, nome, marca, preco))
-        conn.commit()
-        conn.close()
+        inserir_ou_atualizar_produto(ean, nome, marca, preco)
+        
     return redirect(url_for('produtos_existentes'))
+
+@app.route('/api/salvar_venda', methods=['POST'])
+def salvar_venda():
+    dados = request.get_json()
+    itens = dados.get('itens', [])
+    valor_total = dados.get('valor_total', 0.0)
+    
+    if not itens:
+        return jsonify({"sucesso": False, "mensagem": "Venda vazia."}), 400
+
+    sucesso, resultado = registrar_venda_paga(itens, valor_total)
+    
+    if sucesso:
+        return jsonify({"sucesso": True, "venda_id": resultado})
+    else:
+        return jsonify({"sucesso": False, "mensagem": resultado}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

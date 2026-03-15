@@ -52,3 +52,47 @@ def init_db():
             )
         ''')
         conn.commit()
+
+def buscar_todos_produtos():
+    conn = get_db_connection()
+    produtos = conn.execute('SELECT * FROM produtos').fetchall()
+    conn.close()
+    return produtos
+
+def buscar_produto_por_ean(ean):
+    conn = get_db_connection()
+    produto = conn.execute('SELECT * FROM produtos WHERE ean = ?', (ean,)).fetchone()
+    conn.close()
+    return produto
+
+def inserir_ou_atualizar_produto(ean, nome, marca, preco):
+    conn = get_db_connection()
+    conn.execute('INSERT OR REPLACE INTO produtos VALUES (?, ?, ?, ?)', (ean, nome, marca, preco))
+    conn.commit()
+    conn.close()
+
+def registrar_venda_paga(itens, valor_total):
+    conn = get_db_connection()
+    try:
+        cursor = conn.cursor()
+        
+        cursor.execute(
+            'INSERT INTO vendas (status, valor_total) VALUES (?, ?)',
+            ('PAGO', valor_total)
+        )
+        venda_id = cursor.lastrowid 
+
+        for item in itens:
+            cursor.execute(
+                'INSERT INTO itens_venda (venda_id, ean, quantidade) VALUES (?, ?, ?)',
+                (venda_id, item['ean'], item['qtd'])
+            )
+        
+        conn.commit() 
+        return True, venda_id
+        
+    except Exception as e:
+        conn.rollback() 
+        return False, str(e)
+    finally:
+        conn.close()

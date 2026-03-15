@@ -2,9 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputBarcode = document.getElementById('barcode');
     const tabelaCorpo = document.querySelector('#tabela-itens tbody');
     const displayTotal = document.getElementById('valor-total');
+    const btnVendaPaga = document.querySelector('.btn-acao.pago');
     
-    let itensVenda = []; 
-
+    let itensVenda = [];
+    
     inputBarcode.addEventListener('keydown', async (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -115,4 +116,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
         displayTotal.innerText = `R$ ${totalGeral.toFixed(2)}`;
     }
+    btnVendaPaga.addEventListener('click', async () => {
+        if (itensVenda.length === 0) {
+            alert("Caixa vazio. Bipe algum produto.");
+            inputBarcode.focus();
+            return;
+        }
+
+        // Soma total confiável do front-end
+        const valorTotal = itensVenda.reduce((acc, item) => acc + item.total, 0);
+
+        const payload = {
+            itens: itensVenda,
+            valor_total: valorTotal
+        };
+
+        try {
+            // Desabilita o botão temporariamente para evitar clique duplo (ansiedade de operador)
+            btnVendaPaga.disabled = true;
+            btnVendaPaga.innerText = "SALVANDO...";
+
+            const response = await fetch('/api/salvar_venda', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+
+            if (data.sucesso) {
+                // Tiro curto: Salva e volta pro menu para o próximo cliente
+                window.location.href = '/'; 
+            } else {
+                alert("Erro no servidor: " + data.mensagem);
+                btnVendaPaga.disabled = false;
+                btnVendaPaga.innerText = "FINALIZAR VENDA";
+                inputBarcode.focus();
+            }
+        } catch (error) {
+            console.error("Erro ao salvar:", error);
+            alert("Erro de conexão. A venda não foi salva.");
+            btnVendaPaga.disabled = false;
+            btnVendaPaga.innerText = "FINALIZAR VENDA";
+            inputBarcode.focus();
+        }
+    });
 });
+
