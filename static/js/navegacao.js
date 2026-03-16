@@ -1,3 +1,6 @@
+// Responsabilidade: Motor global de navegação matricial (Keyboard-only).
+// Intercepta eventos de teclado para mover o foco entre seções e itens, garantindo operação 100% sem mouse.
+
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Mapeia apenas as seções que contêm algo interagível
     const sections = Array.from(document.querySelectorAll('section')).filter(sec => {
